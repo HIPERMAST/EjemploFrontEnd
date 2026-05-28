@@ -2,7 +2,7 @@ import { useState } from "react";
 import { supabase } from "./lib/supabaseClient";
 
 export default function App() {
-  const [nombre, setNombre] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [usuarios, setUsuarios] = useState([]);
   const [msg, setMsg] = useState("");
@@ -12,13 +12,13 @@ export default function App() {
     setMsg("");
     const { data, error } = await supabase
       .from("usuarios")
-      .insert([{ nombre, email }])
+      .insert([{ name, email }])
       .select();
 
     if (error) setMsg("❌ " + error.message);
     else {
       setMsg("✅ Usuario creado");
-      setNombre("");
+      setName("");
       setEmail("");
       setUsuarios((prev) => [...data, ...prev]);
     }
@@ -39,8 +39,8 @@ export default function App() {
     ? msg.startsWith("❌")
       ? "alert alert-danger"
       : msg.startsWith("✅")
-      ? "alert alert-success"
-      : "alert alert-secondary"
+        ? "alert alert-success"
+        : "alert alert-secondary"
     : "";
 
   return (
@@ -63,8 +63,8 @@ export default function App() {
                   <input
                     className="form-control"
                     placeholder="Juan Pérez"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     required
                   />
                 </div>
@@ -112,7 +112,7 @@ export default function App() {
                       className="list-group-item d-flex justify-content-between align-items-center"
                     >
                       <div>
-                        <strong>{u.nombre}</strong>
+                        <strong>{u.name}</strong>
                         <div className="text-muted small">{u.email}</div>
                       </div>
                       <span className="badge text-bg-light">
